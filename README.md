@@ -1,4 +1,4 @@
-# magecs
+# MageCS
 
 Run Magento Code Sniffer tool on docker
 
@@ -19,25 +19,29 @@ Make the file executable
 
 - Docker
 
-## Running MageCS tool
 
-Navigate to the directory you want to run the tool and run:
+## Usage
 
-    magecs
 
-For Magento 1 add the parameter m1
+    magecs [<options>] [<phpcs/phpcbf arguments>]
 
-    magecs --m1
 
-## Default phpcs values for Magento 1
+### Options
+
+    -help  Display this usage information.
+    -path  One or more files and/or directories to check
+    -m1    Check according to MEQP Coding Standards (Magento 1)
+    -cbf   Run PHP Code Beautifier and Fixer (phpcbf) tool
+
+## Default phpcs values 
+
+### Magento 1
 
 - severity=10
 - extensions=php,phtml
 - report_width=120
 
 
-## Default phpcs values for Magento 2
+### Magento 2
 
-- severity=10
-- extensions=php,phtml
 - report_width=120

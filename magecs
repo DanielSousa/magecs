@@ -21,10 +21,12 @@ Run Magento code sniffer in a docker container.
 Magecs is a wrapper to phpcs tool.
 
 Usage:
-    ${ME} [<option>] [<arguments>]
+    ${ME} [<options>] [<phpcs/phpcbf arguments>]
 Options:
    -help  Display this usage information.
    -path  One or more files and/or directories to check
+   -m1    Check according to MEQP Coding Standards (Magento 1)
+   -cbf   Run PHP Code Beautifier and Fixer (phpcbf) tool
 
 HEREDOC
     return 0
