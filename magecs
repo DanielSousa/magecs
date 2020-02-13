@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -o nounset
+set -o errexit
+set -o pipefail
+
+trap '>&2 printf "\n\e[01;31mERROR\033[0m: Command \`%s\` on line $LINENO failed with exit code $?\n" "$BASH_COMMAND"' 1 2
+
+declare SOURCE_PATH=$PWD
+declare ENTRYPOINT_PATH="/opt/magento-coding-standard/vendor/bin/phpcs"
+declare EXTRA_OPTIONS=". -p --colors"
+readonly PHPCS_IMAGE="danielsousa/magecs:latest"
+readonly ME=$(basename $0)
+
+help() {
+     cat <<HEREDOC
+ _  _   __    ___  ____  ___  ____
+( \/ ) / _\  / __)(  __)/ __)/ ___)
+/ \/ \/    \( (_ \ ) _)( (__ \___ \\
+\_)(_/\_/\_/ \___/(____)\___)(____/
+Run Magento code sniffer in a docker container.
+Magecs is a wrapper to phpcs tool.
+
+Usage:
+    ${ME} [<option>] [<arguments>]
+Options:
+   -help  Display this usage information.
+   -path  One or more files and/or directories to check
+
+HEREDOC
+    return 0
+}
+
+for ARG in "$@"; do
+    case "${ARG}" in
+        -help)
+            help
+            exit 0
+            ;;
+        -path=*)
+            SOURCE_PATH="${ARG#*=}"
+            shift
+            ;;
+        -m1)
+            ENTRYPOINT_PATH="/opt/marketplace-eqp/vendor/bin/phpcs"
+            shift
+            ;;
+        -cbf)
+            ENTRYPOINT_PATH="/opt/magento-coding-standard/vendor/bin/phpcbf"
+            shift
+            ;;
+    esac
+done
+
+for ARG
+do
+    shift
+    [[ "$ARG" = "-path" ]] && continue
+    [[ "$ARG" = "-m1" ]] && continue
+    set -- "$@" "$ARG"
+done
+
+SOURCE_PATH=${SOURCE_PATH/\~/$HOME}
+docker run --entrypoint ${ENTRYPOINT_PATH} --init -v ${SOURCE_PATH}:/mnt/src:cached --rm -u "$(id -u):$(id -g)" "${PHPCS_IMAGE}" "$@" ${EXTRA_OPTIONS}
+echo "============================"
+echo "MAGECS is a wrapper to phpcs"
