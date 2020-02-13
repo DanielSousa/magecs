@@ -5,7 +5,7 @@ Run Magento Code Sniffer tool on docker
 
 ## Download
 
-    curl -sS https://raw.githubusercontent.com/DanielSousa/magecs/master/magecs > magecs
+    curl -sS https://raw.githubusercontent.com/danielsousa/magecs/master/magecs > magecs
 
 Move file to /usr/local/bin
 
