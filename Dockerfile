@@ -1,7 +1,7 @@
 FROM php:7.0-cli-alpine
 
 # Install Magento Coding Standards
-ARG MCS_VERSION="5"
+ARG MCS_VERSION="15"
 ARG MEQP_VERSION="4.0.0"
 RUN set -eux
 
